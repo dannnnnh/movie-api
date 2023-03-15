@@ -138,5 +138,78 @@
       </li>
     </ul>
     <!-- Repeat for all other endpoints -->
+
+    <h2>GET /movies?genre={genre}</h2>
+    <p>Get all movies with a certain genre.</p>
+    <ul>
+      <li><strong>Endpoint URL:</strong> /movies?genre={genre}</li>
+      <li><strong>Method:</strong> GET</li>
+      <li><strong>Query Parameters:</strong> genre (string)</li>
+      <li><strong>Request Body:</strong> None</li>
+    </ul>
+
+    <h2>GET /movies?genre={genre}&director={director}</h2>
+    <p>Get all movies with a certain genre AND a certain director.</p>
+    <ul>
+      <li>
+        <strong>Endpoint URL:</strong> /movies?genre={genre}&director={director}
+      </li>
+      <li><strong>Method:</strong> GET</li>
+      <li>
+        <strong>Query Parameters:</strong> genre (string), director (string)
+      </li>
+      <li><strong>Request Body:</strong> None</li>
+    </ul>
+
+    <h2>PUT /movies/{movieId}</h2>
+    <p>Update the description of a particular movie.</p>
+    <ul>
+      <li><strong>Endpoint URL:</strong> /movies/{movieId}</li>
+      <li><strong>Method:</strong> PUT</li>
+      <li><strong>Query Parameters:</strong> movieId (string)</li>
+      <li>
+        <strong>Request Body:</strong> A JSON object containing the new movie
+        description. Example:
+        <pre>
+{
+  "description": "New movie description"
+}
+        </pre>
+      </li>
+    </ul>
+
+    <h2>PUT /movies/director/{directorId}</h2>
+    <p>Update the bio of a certain director for multiple movies.</p>
+    <ul>
+      <li><strong>Endpoint URL:</strong> /movies/director/{directorId}</li>
+      <li><strong>Method:</strong> PUT</li>
+      <li><strong>Query Parameters:</strong> directorId (string)</li>
+      <li>
+        <strong>Request Body:</strong> A JSON object containing the new director
+        bio. Example:
+        <pre>
+{
+  "bio": "New director bio"
+}
+        </pre>
+      </li>
+    </ul>
+
+    <h2>PUT /users/{userId}/favorites</h2>
+    <p>Add a movie to a user's list of favorites.</p>
+    <ul>
+      <li><strong>Endpoint URL:</strong> /users/{userId}/favorites</li>
+      <li><strong>Method:</strong> PUT</li>
+      <li><strong>Query Parameters:</strong> userId (string)</li>
+      <li>
+        <strong>Request Body:</strong> A JSON object containing the movieId.
+        Example:
+        <pre>
+{
+  "movieId": "{movieId}"
+}
+        </pre>
+      </li>
+    </ul>
   </body>
 </html>
