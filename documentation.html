@@ -1,214 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie API Documentation</title>
   </head>
   <body>
-    <h1>Movie API</h1>
-    <p>
-      Welcome to the Movie API! This API allows you to search for movies and get
-      information about them, including their title, year of release, director,
-      and actors.
-    </p>
+    <h1>Movie API Documentation</h1>
 
-    <h1>Movie Club API Documentation</h1>
-
-    <h2>GET /users</h2>
-    <p>Returns a list of all users in the system.</p>
+    <h2>Endpoints</h2>
     <ul>
-      <li><strong>Endpoint URL:</strong> /users</li>
-      <li><strong>Method:</strong> GET</li>
-      <li><strong>Query Parameters:</strong> None</li>
-      <li><strong>Request Body:</strong> None</li>
-      <li><strong>Response:</strong> An array of user objects. Example:</li>
-      <pre>
-        [{"id": "ab12cd34",
-		"name": "Alex",
-		"favoriteMovies": ["The Shawshank Redemption", "The Godfather"]
-          },
-          {
-            "id": "ef56gh78",
-            "name": "Bob",
-            "favoriteMovies": ["The Dark Knight", "The Matrix"]
-          }
-        ]
-      </pre>
-    </ul>
-
-    <h2>POST /users</h2>
-    <p>Creates a new user in the system.</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /users</li>
-      <li><strong>Method:</strong> POST</li>
-      <li><strong>Query Parameters:</strong> None</li>
       <li>
-        <strong>Request Body:</strong> A JSON object containing the new user's
-        name. Example:
+        <h3>GET /movies</h3>
+        <p>Returns a list of all movies.</p>
       </li>
-      <pre>
-        {
-          "name": "Charlie"
-        }
-      </pre>
-      <li>
-        <strong>Response:</strong> A JSON object containing the newly created
-        user's ID and name. Example:
-      </li>
-      <pre>
-        {
-          "id": "ij90kl12",
-          "name": "Charlie"
-        }
-      </pre>
-    </ul>
 
-    <h2>GET /movies</h2>
-    <p>Returns a list of all movies in the system.</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies</li>
-      <li><strong>Method:</strong> GET</li>
-      <li><strong>Query Parameters:</strong> None</li>
-      <li><strong>Request Body:</strong> None</li>
-      <li><strong>Response:</strong> An array of movie objects. Example:</li>
-      <pre>
-        [          {"id": "001","title": "The Shawshank Redemption",
-		"genre": {"name": "Drama"},"director": {"name": "Frank Darabont"}},
-		 ]
-      </pre>
-    </ul>
-
-    <h2>FIND MOVIE BY TITLE</h2>
-    <p>Returns the movie object that matches the provided title</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies/title/:title</li>
-      <li><strong>Method Type:</strong> GET</li>
-      <li><strong>Query Parameters:</strong> title (string)</li>
-      <li><strong>Body of the Request:</strong> N/A</li>
-      <li><strong>Example:</strong> /movies/title/The Godfather</li>
       <li>
-        <strong>Response Data:</strong> A JSON object representing the movie
+        <h3>GET /movies/:Title</h3>
+        <p>Returns a movie by its title.</p>
       </li>
-    </ul>
 
-    <h2>FIND MOVIE BY GENRE</h2>
-    <p>Returns a list of all movies that belong to the provided genre</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies/genre/:genreName</li>
-      <li><strong>Method Type:</strong> GET</li>
-      <li><strong>Query Parameters:</strong> genreName (string)</li>
-      <li><strong>Body of the Request:</strong> N/A</li>
-      <li><strong>Example:</strong> /movies/genre/Drama</li>
       <li>
-        <strong>Response Data:</strong> An array of JSON objects representing
-        movies that belong to the specified genre
+        <h3>GET /movies/genre/:genreName</h3>
+        <p>Returns a movie by its genre.</p>
       </li>
-    </ul>
 
-    <h2>FIND DIRECTOR</h2>
-    <p>Returns the director object that matches the provided director name</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies/directors/:directorName</li>
-      <li><strong>Method Type:</strong> GET</li>
-      <li><strong>Query Parameters:</strong> directorName (string)</li>
-      <li><strong>Body of the Request:</strong> N/A</li>
-      <li><strong>Example:</strong> /movies/directors/Quentin Tarantino</li>
       <li>
-        <strong>Response Data:</strong> A JSON object representing the director
+        <h3>GET /movies/directors/:directorName</h3>
+        <p>Returns a movie by its director.</p>
       </li>
-    </ul>
 
-    <h2>UPDATE USERNAME</h2>
-    <p>Updates the name of the user with the provided ID</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /users/:id</li>
-      <li><strong>Method Type:</strong> PUT</li>
-      <li><strong>Query Parameters:</strong> id (string)</li>
       <li>
-        <strong>Body of the Request:</strong> JSON object representing the
-        updated user
-        <br />
-        <strong>Example:</strong> {"name": "John Doe"}
+        <h3>GET /users</h3>
+        <p>Returns a list of all users.</p>
       </li>
-      <li><strong>Example:</strong> /users/1234</li>
-      <li>
-        <strong>Response Data:</strong> A JSON object representing the updated
-        user
-        <br />
-        <strong>Example:</strong> {"id": "1234", "name": "John Doe"}
-      </li>
-    </ul>
-    <!-- Repeat for all other endpoints -->
 
-    <h2>GET /movies?genre={genre}</h2>
-    <p>Get all movies with a certain genre.</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies?genre={genre}</li>
-      <li><strong>Method:</strong> GET</li>
-      <li><strong>Query Parameters:</strong> genre (string)</li>
-      <li><strong>Request Body:</strong> None</li>
-    </ul>
-
-    <h2>GET /movies?genre={genre}&director={director}</h2>
-    <p>Get all movies with a certain genre AND a certain director.</p>
-    <ul>
       <li>
-        <strong>Endpoint URL:</strong> /movies?genre={genre}&director={director}
+        <h3>GET /users/:Username</h3>
+        <p>Returns a user by their username.</p>
       </li>
-      <li><strong>Method:</strong> GET</li>
-      <li>
-        <strong>Query Parameters:</strong> genre (string), director (string)
-      </li>
-      <li><strong>Request Body:</strong> None</li>
-    </ul>
 
-    <h2>PUT /movies/{movieId}</h2>
-    <p>Update the description of a particular movie.</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies/{movieId}</li>
-      <li><strong>Method:</strong> PUT</li>
-      <li><strong>Query Parameters:</strong> movieId (string)</li>
       <li>
-        <strong>Request Body:</strong> A JSON object containing the new movie
-        description. Example:
-        <pre>
-{
-  "description": "New movie description"
-}
-        </pre>
+        <h3>POST /users</h3>
+        <p>
+          Creates a new user. Requires a JSON object containing Username,
+          Password, Email, and Birthday.
+        </p>
       </li>
-    </ul>
 
-    <h2>PUT /movies/director/{directorId}</h2>
-    <p>Update the bio of a certain director for multiple movies.</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /movies/director/{directorId}</li>
-      <li><strong>Method:</strong> PUT</li>
-      <li><strong>Query Parameters:</strong> directorId (string)</li>
       <li>
-        <strong>Request Body:</strong> A JSON object containing the new director
-        bio. Example:
-        <pre>
-{
-  "bio": "New director bio"
-}
-        </pre>
+        <h3>PUT /users/:Username</h3>
+        <p>
+          Updates an existing user. Requires a JSON object containing the
+          updated Username, Password, Email, and Birthday.
+        </p>
       </li>
-    </ul>
 
-    <h2>PUT /users/{userId}/favorites</h2>
-    <p>Add a movie to a user's list of favorites.</p>
-    <ul>
-      <li><strong>Endpoint URL:</strong> /users/{userId}/favorites</li>
-      <li><strong>Method:</strong> PUT</li>
-      <li><strong>Query Parameters:</strong> userId (string)</li>
       <li>
-        <strong>Request Body:</strong> A JSON object containing the movieId.
-        Example:
-        <pre>
-{
-  "movieId": "{movieId}"
-}
-        </pre>
+        <h3>POST /users/:Username/movies/:MovieID</h3>
+        <p>Adds a movie to the user's list of favorite movies.</p>
+      </li>
+
+      <li>
+        <h3>DELETE /users/:Username/movies/:MovieID</h3>
+        <p>Removes a movie from the user's list of favorite movies.</p>
+      </li>
+
+      <li>
+        <h3>DELETE /users/:Username</h3>
+        <p>Deletes a user by their username.</p>
       </li>
     </ul>
   </body>

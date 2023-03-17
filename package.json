@@ -1,31 +1,28 @@
 {
-  "name": "movie-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dannnnnh/movie-api.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dannnnnh/movie-api/issues"
-  },
-  "homepage": "https://github.com/dannnnnh/movie-api#readme",
-  "dependencies": {
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "morgan": "^1.10.0",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.21"
-  }
+    "name": "myflix",
+    "version": "1.0.0",
+    "description": "myFlix will provide users with access to information about different movies, directors, and genres. Users will be able to sign up, update their personal information, and create a list of their favourite movies.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/manikSom/myFlix.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/manikSom/myFlix/issues"
+    },
+    "homepage": "https://github.com/manikSom/myFlix#readme",
+    "dependencies": {
+        "body-parser": "^1.20.1",
+        "express": "^4.18.2",
+        "mongoose": "^6.9.1",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.21",
+        "uuid": "^9.0.0"
+    }
 }
