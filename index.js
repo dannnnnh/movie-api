@@ -15,7 +15,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //Integrating Mongoose with RESTAPI myFlix is the name od Database with movies and users
-mongoose.connect("mongodb://localhost:27017/myFlix", {
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
