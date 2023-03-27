@@ -35,7 +35,7 @@ userSchema.methods.validatePassword = function (password) {
 };
 
 //Integrating Mongoose with RESTAPI myFlix is the name od Database with movies and users
-mongoose.connect("process.env.CONNECTION_URI", {
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
