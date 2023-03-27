@@ -18,7 +18,7 @@ const { check, validationResult } = require("express-validator");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   Username: { type: String, required: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true },
@@ -35,13 +35,10 @@ userSchema.methods.validatePassword = function (password) {
 };
 
 //Integrating Mongoose with RESTAPI myFlix is the name od Database with movies and users
-mongoose.connect(
-  "mongodb+srv://myFlixDBAdmin:1234@cluster0.ukbac0d.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect("process.env.CONNECTION_URI", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
