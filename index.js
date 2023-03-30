@@ -8,9 +8,18 @@ const path = require("path");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 const cors = require("cors");
-app.use(cors());
 const bcrypt = require("bcrypt");
+
+// Middlewares
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan("common", { stream: accessLogStream }));
+app.use(express.static("public"));
+
+// Login Route
 let auth = require("./auth")(app);
+
 const passport = require("passport");
 require("./passport");
 const { check, validationResult } = require("express-validator");
@@ -35,23 +44,14 @@ userSchema.methods.validatePassword = function (password) {
 };
 
 //Integrating Mongoose with RESTAPI myFlix is the name od Database with movies and users
-mongoose.connect(
-  "mongodb+srv://myFlixDBAdmin:1234@cluster0.ukbac0d.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(morgan("common", { stream: accessLogStream }));
-app.use(express.static("public"));
 
 // GET requests
 app.get("/", (req, res) => {
@@ -82,7 +82,7 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
       .then((user) => {
         if (user) {
@@ -115,7 +115,7 @@ app.post(
 app.get("/users", (req, res) => {
   Users.find()
     .then((users) => {
-      res.status(201).json(users);
+      res.status(200).json(users);
     })
     .catch((err) => {
       console.error(err);
@@ -136,12 +136,13 @@ app.get("/users/:Username", (req, res) => {
 });
 
 app.put("/users/:Username", (req, res) => {
+  const hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
       $set: {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday,
       },
@@ -215,7 +216,7 @@ app.delete("/users/:Username", (req, res) => {
 // Get all movies
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
+  //passport.authenticate("jwt", { session: false }), (removed)
   (req, res) => {
     Movies.find()
       .then((movies) => {
@@ -264,7 +265,7 @@ app.get("/movies/directors/:directorName", (req, res) => {
     });
 });
 
-app.get("/documentation", (req, res) => {
+app.get("/doc", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
 
