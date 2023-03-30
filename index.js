@@ -215,7 +215,7 @@ app.delete("/users/:Username", (req, res) => {
 // Get all movies
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
+  //passport.authenticate("jwt", { session: false }), (removed)
   (req, res) => {
     Movies.find()
       .then((movies) => {
