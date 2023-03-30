@@ -14,6 +14,9 @@ const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
+  flags: "a",
+});
 app.use(morgan("common", { stream: accessLogStream }));
 app.use(express.static("public"));
 
@@ -47,10 +50,6 @@ userSchema.methods.validatePassword = function (password) {
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
-
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
-  flags: "a",
 });
 
 // GET requests
