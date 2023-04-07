@@ -59,7 +59,7 @@ app.get("/", (req, res) => {
 
 app.post(
   "/users",
-  //passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
 
   
   // Validation logic here for request
