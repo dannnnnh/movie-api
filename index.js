@@ -59,7 +59,9 @@ app.get("/", (req, res) => {
 
 app.post(
   "/users",
-  passport.authenticate("jwt", { session: false }),
+  //passport.authenticate("jwt", { session: false }),
+
+  
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
