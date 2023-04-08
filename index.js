@@ -14,6 +14,9 @@ const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
+  flags: "a",
+});
 app.use(morgan("common", { stream: accessLogStream }));
 app.use(express.static("public"));
 
@@ -49,10 +52,6 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useUnifiedTopology: true,
 });
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
-  flags: "a",
-});
-
 // GET requests
 app.get("/", (req, res) => {
   res.send("Welcome to my movie API!");
@@ -60,8 +59,7 @@ app.get("/", (req, res) => {
 
 app.post(
   "/users",
-  //passport.authenticate("jwt", { session: false }),
-
+  passport.authenticate("jwt", { session: false }),
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
@@ -134,8 +132,7 @@ app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const username = req.params.Username; // Add this line to define the username parameter
-    Users.findOne({ Username: username })
+    Users.findOne({ Username: req.params.Username })
       .then((user) => {
         res.json(user);
       })
@@ -150,20 +147,9 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-<<<<<<< HEAD
-    const username = req.params.Username; // Add this line to define the username parameter
-    // Ensure that req.body.Password exists before hashing it
-    if (!req.body.Password) {
-      return res.status(422).json({ error: "Password is required" });
-    }
-
     const hashedPassword = Users.hashPassword(req.body.Password);
-=======
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = Users.hashPassword(req.body.Password, salt);
->>>>>>> parent of 6e13a87 (Updating PUT function)
     Users.findOneAndUpdate(
-      { Username: username }, // Use the defined username parameter here
+      { Username: req.params.Username },
       {
         $set: {
           Username: req.body.Username,
@@ -172,7 +158,7 @@ app.put(
           Birthday: req.body.Birthday,
         },
       },
-      { new: true },
+      { new: true }, // This line makes sure that the updated document is returned
       (err, updatedUser) => {
         if (err) {
           console.error(err);
@@ -236,13 +222,12 @@ app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const username = req.params.Username; // Add this line to define the username parameter
-    Users.findOneAndRemove({ Username: username })
+    Users.findOneAndRemove({ Username: req.params.Username })
       .then((user) => {
         if (!user) {
-          res.status(400).send(username + " was not found");
+          res.status(400).send(req.params.Username + " was not found");
         } else {
-          res.status(200).send(username + " was deleted.");
+          res.status(200).send(req.params.Username + " was deleted.");
         }
       })
       .catch((err) => {
