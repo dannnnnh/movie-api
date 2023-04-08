@@ -150,18 +150,8 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-<<<<<<< HEAD
-    const username = req.params.Username; // Add this line to define the username parameter
-    // Ensure that req.body.Password exists before hashing it
-    if (!req.body.Password) {
-      return res.status(422).json({ error: "Password is required" });
-    }
-
-    const hashedPassword = Users.hashPassword(req.body.Password);
-=======
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = Users.hashPassword(req.body.Password, salt);
->>>>>>> parent of 6e13a87 (Updating PUT function)
     Users.findOneAndUpdate(
       { Username: username }, // Use the defined username parameter here
       {
