@@ -61,7 +61,6 @@ app.post(
   "/users",
   passport.authenticate("jwt", { session: false }),
 
-  
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
@@ -149,7 +148,8 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const hashedPassword = Users.hashPassword(req.body.Password);
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = Users.hashPassword(req.body.Password, salt);
     Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
@@ -160,7 +160,7 @@ app.put(
           Birthday: req.body.Birthday,
         },
       },
-      { new: true }, // This line makes sure that the updated document is returned
+      { new: true },
       (err, updatedUser) => {
         if (err) {
           console.error(err);
