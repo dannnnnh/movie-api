@@ -133,7 +133,8 @@ app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Users.findOne({ Username: req.params.Username })
+    const username = req.params.Username; // Add this line to define the username parameter
+    Users.findOne({ Username: username })
       .then((user) => {
         res.json(user);
       })
@@ -148,6 +149,7 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const username = req.params.Username; // Add this line to define the username parameter
     // Ensure that req.body.Password exists before hashing it
     if (!req.body.Password) {
       return res.status(422).json({ error: "Password is required" });
@@ -155,7 +157,7 @@ app.put(
 
     const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate(
-      { Username: req.params.Username },
+      { Username: username }, // Use the defined username parameter here
       {
         $set: {
           Username: req.body.Username,
@@ -228,12 +230,13 @@ app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Users.findOneAndRemove({ Username: req.params.Username })
+    const username = req.params.Username; // Add this line to define the username parameter
+    Users.findOneAndRemove({ Username: username })
       .then((user) => {
         if (!user) {
-          res.status(400).send(req.params.Username + " was not found");
+          res.status(400).send(username + " was not found");
         } else {
-          res.status(200).send(req.params.Username + " was deleted.");
+          res.status(200).send(username + " was deleted.");
         }
       })
       .catch((err) => {
