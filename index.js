@@ -148,8 +148,12 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = Users.hashPassword(req.body.Password, salt);
+    // Ensure that req.body.Password exists before hashing it
+    if (!req.body.Password) {
+      return res.status(422).json({ error: "Password is required" });
+    }
+
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
