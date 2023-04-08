@@ -26,6 +26,9 @@ let userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.hashPassword = function (password) {
+  if (!password) {
+    throw new Error("Password is required");
+  }
   return bcrypt.hashSync(password, 10);
 };
 
