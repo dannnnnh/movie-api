@@ -59,41 +59,38 @@ app.get("/", (req, res) => {
 
 app.post(
   "/users",
-  //passport.authenticate("jwt", { session: false }),
-  // Validation logic here for request
-  //you can either use a chain of methods like .not().isEmpty()
-  //which means "opposite of isEmpty" in plain english "is not empty"
-  //or use .isLength({min: 5}) which means
-  //minimum value of 5 characters are only allowed
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    check("username", "username needs to have at least 5 characters").isLength({
+      min: 5,
+    }),
     check(
-      "Username",
-      "Username contains non alphanumeric characters - not allowed."
+      "username",
+      "username contains non alphanumeric characters"
     ).isAlphanumeric(),
-    check("Password", "Password is required").not().isEmpty(),
-    check("Email", "Email does not appear to be valid").isEmail(),
+    check("password", "password is required").not().isEmpty(),
+    check("password", "password needs to have at least 8 characters").isLength({
+      min: 8,
+    }),
+    check("email", "email does not appear to be valid").isEmail(),
+    check("birthday", "birthday must be a date").isDate(),
   ],
   (req, res) => {
-    // check the validation object for errors
     let errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
 
-    const hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
+    let hashedPassword = Users.hashPassword(req.body.password);
+    Users.findOne({ username: req.body.username })
       .then((user) => {
         if (user) {
-          // If the user is found, send a response that it already exists
-          return res.status(400).send(req.body.Username + " already exists");
+          return res.status(400).send(req.body.username + " already exists");
         } else {
           Users.create({
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday,
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email,
+            birthdate: req.body.birthdate,
           })
             .then((user) => {
               res.status(201).json(user);
