@@ -52,6 +52,12 @@ mongoose.connect(process.env.CONNECTION_URI, {
   useUnifiedTopology: true,
 });
 
+let allowedOrigins = [
+  "http://localhost:8080",
+  "http://localhost:1234",
+  "http://localhost:4200",
+];
+
 // GET requests
 app.get("/", (req, res) => {
   res.send("Welcome to my movie API!");
@@ -60,37 +66,33 @@ app.get("/", (req, res) => {
 app.post(
   "/users",
   [
-    check("username", "username needs to have at least 5 characters").isLength({
-      min: 5,
-    }),
+    check("Username", "Username is required").isLength({ min: 5 }),
     check(
-      "username",
-      "username contains non alphanumeric characters"
+      "Username",
+      "Username contains non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
-    check("password", "password is required").not().isEmpty(),
-    check("password", "password needs to have at least 8 characters").isLength({
-      min: 8,
-    }),
-    check("email", "email does not appear to be valid").isEmail(),
-    check("birthday", "birthday must be a date").isDate(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
   ],
   (req, res) => {
+    // check the validation object for errors
     let errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.password);
-    Users.findOne({ username: req.body.username })
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })
       .then((user) => {
         if (user) {
-          return res.status(400).send(req.body.username + " already exists");
+          return res.status(400).send(req.body.Username + "already exists");
         } else {
           Users.create({
-            username: req.body.username,
-            password: hashedPassword,
-            email: req.body.email,
-            birthday: req.body.birthday,
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
             .then((user) => {
               res.status(201).json(user);
