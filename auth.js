@@ -1,10 +1,26 @@
-const jwtSecret = "your_jwt_secret"; // This has to be the same key used in the JWTStrategy
+/**
+ * JWT Secret used to sign or encode the values of the JWT.
+ * This has to be the same key used in the JWTStrategy.
+ * @constant jwtSecret
+ * @type {string}
+ */
+const jwtSecret = "your_jwt_secret";
 
 const jwt = require("jsonwebtoken"),
   passport = require("passport");
 
-require("./passport"); // Your local passport file
+/**
+ * Local Passport file.
+ * @module ./passport
+ */
+require("./passport"); 
 
+/**
+ * Generates JWT Token
+ * @function generateJWTToken
+ * @param {Object} user - User object.
+ * @returns {string} - JWT Token.
+ */
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     subject: user.Username, // This is the username you’re encoding in the JWT
@@ -13,8 +29,20 @@ let generateJWTToken = (user) => {
   });
 };
 
-/* POST login. */
+/**
+ * Login route.
+ * @function POST /login
+ * @param {Object} router - Express router.
+ */
 module.exports = (router) => {
+  /**
+   * @route POST /login
+   * @group User - Operations about user
+   * @param {string} username.body.required - username or email - eg: user@domain
+   * @param {string} password.body.required - user's password.
+   * @returns {object} 200 - An array of user info
+   * @returns {Error}  default - Unexpected error
+   */
   router.post("/login", (req, res) => {
     passport.authenticate("local", { session: false }, (error, user, info) => {
       if (error || !user) {

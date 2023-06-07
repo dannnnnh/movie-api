@@ -127,6 +127,18 @@ app.post(
   }
 );
 
+
+// Get a user by username
+/**
+ * Get a user by username.
+ * @name getUserByUsername
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 // Get all users
 app.get(
   "/users",
@@ -159,6 +171,18 @@ app.get(
   }
 );
 
+
+// Update a user by username
+/**
+ * Update a user by username.
+ * @name updateUserByUsername
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -187,6 +211,16 @@ app.put(
 );
 
 // Add a movie to a user's list of favorites
+/**
+ * Add a movie to a user's list of favorites.
+ * @name addFavoriteMovie
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 app.post(
   "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -208,6 +242,17 @@ app.post(
     );
   }
 );
+
+// Delete a movie from a user's list of favorites
+/**
+ * Delete a movie from a user's list of favorites.
+ * @name deleteFavoriteMovie
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
 
 // DELETE a movie to a user's list of favorites
 app.delete(
@@ -233,6 +278,17 @@ app.delete(
 );
 
 // Delete a user by username
+/**
+ * Delete a user by username.
+ * @name deleteUserByUsername
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
+// Delete a user by username
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -253,6 +309,16 @@ app.delete(
 );
 
 // Get all movies
+/**
+ * Get all movies.
+ * @name getAllMovies
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 app.get(
   "/movies",
   //passport.authenticate("jwt", { session: false }), (removed)
@@ -269,6 +335,16 @@ app.get(
 );
 
 // Get a movie by title
+/**
+ * Get a movie by title.
+ * @name getMovieByTitle
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -285,6 +361,17 @@ app.get(
 );
 
 // Get a Movie by Genre
+/**
+ * Get a movie by genre.
+ * @name getMovieByGenre
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ *
+ // @param {object} res - The response object.
+ */
+
 app.get(
   "/movies/genre/:genreName",
   passport.authenticate("jwt", { session: false }),
@@ -301,6 +388,16 @@ app.get(
 );
 
 // Get a Movie by Director
+/**
+ * Get a movie by director.
+ * @name getMovieByDirector
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 app.get(
   "/movies/directors/:directorName",
   passport.authenticate("jwt", { session: false }),
@@ -316,15 +413,51 @@ app.get(
   }
 );
 
+// Get documentation
+/**
+ * Get documentation.
+ * @name getDocumentation
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+
 app.get("/doc", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
+
+// Handle errors
+/**
+ * Handle errors.
+ * @name handleError
+ * @function
+ * @memberof app
+ * @inner
+ * @param {object} err - The error object.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
+ */
 
 // Error
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("There was an error. Please try again later.");
 });
+
+// Start server
+/**
+ * Start server.
+ * @name startServer
+ * @function
+ * @memberof app
+ * @inner
+ * @param {number} port - The port number.
+ * @param {string} ip - The IP address.
+ * @param {function} callback - The callback function.
+ */
 
 // listen for requests
 const port = process.env.PORT || 8080;
