@@ -9,13 +9,11 @@
     },
     "repository": {
         "type": "git"
-
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {},
-
     "dependencies": {
         "bcrypt": "^5.1.0",
         "body-parser": "^1.20.1",
@@ -31,6 +29,7 @@
         "passport": "^0.6.0",
         "passport-jwt": "^4.0.1",
         "passport-local": "^1.0.0",
+        "typedoc": "^0.24.8",
         "uuid": "^9.0.0"
     }
 }
